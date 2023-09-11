@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { FiSearch } from 'react-icons/fi';
@@ -10,36 +10,42 @@ import {
   SearchFormInputStyled,
 } from './Searchbar.styled';
 
-export const Searchbar=({query})=> {
-    const [query, setQuery] = useState('');
-  
- const handleInput = e => {
-    const { value } = e.currentTarget;
-    setQuery({ query: value.toLowerCase().trim() });
+export class Searchbar extends Component {
+  state = {
+    query: '',
   };
 
- const  handleSubmit = e => {
+  handleInput = e => {
+    const { value } = e.currentTarget;
+    this.setState({ query: value.toLowerCase().trim() });
+  };
+
+  handleSubmit = e => {
     e.preventDefault();
+    const { query } = this.state;
+
     if (query === '') {
       toast.info('Please enter your search term');
       return;
     }
 
-    onSubmit(query);
-  setQuery({ query: '' });
-   
-    
+    this.props.onSubmit(query);
+    this.setState({ query: '' });
+  };
+
+  render() {
+    const { query } = this.state;
     return (
       <>
         <Header>
-          <SearchFormStyled onSubmit={handleSubmit}>
+          <SearchFormStyled onSubmit={this.handleSubmit}>
             <SearchFormInputStyled
               type="text"
               autoComplete="off"
               autoFocus
               placeholder="Search images and photos"
               value={query}
-              onChange={handleInput}
+              onChange={this.handleInput}
             />
             <SearchFormButtonStyled type="submit">
               <FiSearch size="16px" />
@@ -50,7 +56,6 @@ export const Searchbar=({query})=> {
     );
   }
 }
- };
 
 Searchbar.propTypes = {
   query: PropTypes.string,

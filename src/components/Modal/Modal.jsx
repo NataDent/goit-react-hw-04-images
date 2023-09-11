@@ -5,32 +5,32 @@ import { createPortal } from 'react-dom';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export class Modal extends Component {
+export const Modal  =() => {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
-  componentWillUnmount() {
+   const componentWillUnmount = ()  => {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown = e => {
+ const  handleKeyDown = e => {
     if (e.code === 'Escape') {
       this.props.onClose();
     }
   };
 
-  handleBackdropClick = e => {
+   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
   render() {
     return createPortal(
-      <ModalOverlayStyled onClick={this.handleBackdropClick}>
+      <ModalOverlayStyled onClick={handleBackdropClick}>
         <ModalStyled>
-          <LargeImage src={this.props.children} alt="qwwqwe" />
+          <LargeImage src={children} alt="qwwqwe" />
         </ModalStyled>
       </ModalOverlayStyled>,
       modalRoot

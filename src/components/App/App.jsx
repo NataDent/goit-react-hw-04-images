@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getImages } from '../api';
@@ -9,103 +9,83 @@ import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../Button/Button';
 
-export class App extends Component {
-  state = {
-    images: [],
-    largeImageUrl: '',
-    showModal: false,
-    query: '',
-    page: 1,
-    error: null,
-    isLoading: false,
-    isEmpty: false,
-    isVisible: false,
-  };
+export const App = () => {
+  const [images, setImages] = useState([]);
+  const [largeImageUrl, setLargeImageUrl] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    
+  useEffect(() => {
+        
+    const getImages = async (query, pge) => {
+      if (!query) return;
+      setIsLoading(true);
 
-  componentDidUpdate(_, prevState) {
-    const { query, page } = this.state;
-    if (prevState.query !== query || prevState.page !== page) {
-      this.setState({ isLoading: true });
-      getImages(query, page)
-        .then(({ hits, totalHits }) => {
-          if (hits.length === 0) {
-            this.setState({ isEmpty: true });
-            toast.warn('Sorry. there are no images ... 😅');
-            return;
-          }
-          this.setState(prevState => ({
-            images: [...prevState.images, ...hits],
-            isVisible: page < Math.ceil(totalHits / 12),
-          }));
-        })
-        .catch(error => {
-          this.setState({ error: error.message });
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
-        });
-    }
-  }
-
-  getLargeImage = largeImageURL => {
-    console.log(largeImageURL);
-
-    this.setState({ largeImageURL });
-    this.toggleModal();
-  };
-
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
+      try {
+        const { hits, totalHits } = getImages(query, page);
+       
+        if (hits.length === 0) {
+          setIsEmpty(true);
+          toast.warn('Sorry. There are no images ... 😅');
+          return;
+        }
+        setImages(state => [...state, ...hits]);
+        setIsVisible(page < Math.ceil(total / totalHits));
+                
+      } catch (error) {
+        setError(true)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    getImages(query, page);
+  }, [query, page]);
+    
+  const getLargeImage = largeImageURL => {
+    setLargeImageUrl(largeImageURL);
+    toggleModal();
+};
+  
+const  toggleModal = () => {
+    setShowModal( showModal => ({
       showModal: !showModal,
     }));
   };
 
-  onSubmit = query => {
-    this.setState({
-      query,
-      images: [],
-      page: 1,
-      isVisible: false,
-      isEmpty: false,
-    });
+ const onSubmit = query => {
+   setQuery(query);
+   setImages([]);
+   setPage(1);
+   setIsVisible(false);
+   setIsEmpty(false)
+    };
+};
+  
+const onLoadMore = () => {
+  setIsLoading(true); 
+      setPage(prevPage=>prevPage + 1)   
   };
 
-  onLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-  };
+  return (
+    <Container>
+      <ToastContainer autoClose={3000} />
+      <Searchbar onSubmit={onSubmit} />
 
-  render() {
-    const {
-      isEmpty,
-      images,
-      isVisible,
-      showModal,
-      error,
-      isLoading,
-      largeImageURL,
-    } = this.state;
+      {error && !isLoading && toast.error('OOPS! THERE WAS AN ERROR!')}
+      {isEmpty && toast.warn('Images not found')}
 
-    return (
-      <Container>
-        <ToastContainer autoClose={3000} />
-        <Searchbar onSubmit={this.onSubmit} />
+      <ImageGallery images={images} onClick={getLargeImageUrl}></ImageGallery>
 
-        {error && !isLoading && toast.error('OOPS! THERE WAS AN ERROR!')}
-        {isEmpty && toast.warn('Images not found')}
-
-        <ImageGallery
-          images={images}
-          onClick={this.getLargeImage}
-        ></ImageGallery>
-
-        {largeImageURL && showModal && (
-          <Modal onClose={this.toggleModal}>{largeImageURL}</Modal>
-        )}
-        {isLoading && <Loader />}
-        {isVisible && <Button onClick={this.onLoadMore} onLoad={isLoading} />}
-      </Container>
-    );
-  }
-}
+      {largeImageURL && showModal && (
+        <Modal onClose={toggleModal}>{largeImageURL}</Modal>
+      )}
+      {isLoading && <Loader />}
+      {isVisible && <Button onClick={onLoadMore} onLoad={isLoading} />}
+    </Container>
+  );
+};
