@@ -50,7 +50,7 @@ export const App = () => {
   };
 
   const toggleModal = () => {
-    setShowModal({ showModal: !showModal });
+    setShowModal(showModal => !showModal);
   };
 
   const onSubmit = query => {

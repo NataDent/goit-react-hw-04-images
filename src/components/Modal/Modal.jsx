@@ -20,6 +20,14 @@ export const Modal = ({ largeImageUrl, onClose }) => {
     };
   }, [onClose]);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
       onClose();
