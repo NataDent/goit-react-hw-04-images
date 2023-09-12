@@ -44,8 +44,8 @@ export const App = () => {
     getImages(query, page);
   }, [query, page]);
 
-  const getLargeImage = largeImageURL => {
-    setLargeImageUrl(largeImageURL);
+  const getLargeImage = largeImageUrl => {
+    setLargeImageUrl(largeImageUrl);
     toggleModal();
   };
 
