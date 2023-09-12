@@ -21,7 +21,7 @@ export const App = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    getImages = async (query, page) => {
+    const getPhotos = async (query, page) => {
       if (!query) return;
       setIsLoading(true);
 
@@ -41,7 +41,7 @@ export const App = () => {
         setIsLoading(false);
       }
     };
-    getImages(query, page);
+    getPhotos(query, page);
   }, [query, page]);
 
   const getLargeImage = largeImageUrl => {
