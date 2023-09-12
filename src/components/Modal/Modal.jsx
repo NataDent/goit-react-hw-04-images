@@ -5,16 +5,19 @@ import { createPortal } from 'react-dom';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({ src, largeImage, onClose }) => {
+export const Modal = ({ largeImageUrl, onClose }) => {
   useEffect(() => {
-    const handleKeyDown = e => {
-      if (e.code === 'Escape') {
+    const handleKeyDown = evt => {
+      if (evt.code === 'Escape') {
         onClose();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   const handleBackdropClick = e => {
@@ -26,7 +29,7 @@ export const Modal = ({ src, largeImage, onClose }) => {
   return createPortal(
     <ModalOverlayStyled onClick={handleBackdropClick}>
       <ModalStyled>
-        <LargeImage src={largeImage} alt="qwwqwe" />
+        <LargeImage src={largeImageUrl} alt="qweqwe" />
       </ModalStyled>
     </ModalOverlayStyled>,
     modalRoot
@@ -34,7 +37,6 @@ export const Modal = ({ src, largeImage, onClose }) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  largeImageUrl: PropTypes.string.isRequired,
   onClose: PropTypes.func,
 };

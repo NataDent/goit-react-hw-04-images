@@ -77,7 +77,7 @@ export const App = () => {
       <ImageGallery images={images} onClick={getLargeImage}></ImageGallery>
 
       {largeImageUrl && showModal && (
-        <Modal onClose={toggleModal}>{largeImageUrl}</Modal>
+        <Modal onClose={toggleModal} largeImageUrl={largeImageUrl} />
       )}
       {isLoading && <Loader />}
       {isVisible && <Button onClick={onLoadMore} onLoad={isLoading} />}
