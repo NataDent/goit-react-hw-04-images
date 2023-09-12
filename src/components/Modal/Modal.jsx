@@ -12,21 +12,14 @@ export const Modal = ({ largeImageUrl, onClose }) => {
         onClose();
       }
     };
-
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onClose]);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
-    return () => {
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [onClose]);
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {

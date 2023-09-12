@@ -42,6 +42,7 @@ export const Searchbar = ({ onSubmit }) => {
           />
           <SearchFormButtonStyled type="submit">
             <FiSearch size="16px" />
+            Search
           </SearchFormButtonStyled>
         </SearchFormStyled>
       </Header>
