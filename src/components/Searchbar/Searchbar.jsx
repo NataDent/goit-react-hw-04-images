@@ -10,7 +10,7 @@ import {
   SearchFormInputStyled,
 } from './Searchbar.styled';
 
-export const Searchbar = () => {
+export const Searchbar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
   const handleInput = e => {
@@ -24,36 +24,33 @@ export const Searchbar = () => {
       toast.info('Please enter your search term');
       return;
     }
-
-    const onSubmit = () => {
-      handleSubmit();
-      setQuery('');
-    };
-
-    return (
-      <>
-        <Header>
-          <SearchFormStyled onSubmit={handleSubmit}>
-            <SearchFormInputStyled
-              type="text"
-              autoComplete="off"
-              autoFocus
-              placeholder="Search images and photos"
-              value={query}
-              onChange={handleInput}
-            />
-            <SearchFormButtonStyled type="submit">
-              <FiSearch size="16px" />
-            </SearchFormButtonStyled>
-          </SearchFormStyled>
-        </Header>
-      </>
-    );
+    onSubmit(query);
+    setQuery('');
   };
+
+  return (
+    <>
+      <Header>
+        <SearchFormStyled onSubmit={handleSubmit}>
+          <SearchFormInputStyled
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={query}
+            onChange={handleInput}
+          />
+          <SearchFormButtonStyled type="submit">
+            <FiSearch size="16px" />
+          </SearchFormButtonStyled>
+        </SearchFormStyled>
+      </Header>
+    </>
+  );
 };
 
 Searchbar.propTypes = {
-  query: PropTypes.string,
-  onChange: PropTypes.func,
+  // query: PropTypes.string,
+  // onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };

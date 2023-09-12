@@ -21,7 +21,7 @@ export const App = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const getImages = async (query, page) => {
+    getImages = async (query, page) => {
       if (!query) return;
       setIsLoading(true);
 
@@ -50,9 +50,7 @@ export const App = () => {
   };
 
   const toggleModal = () => {
-    setShowModal(showModal => ({
-      showModal: !showModal,
-    }));
+    setShowModal({ showModal: !showModal });
   };
 
   const onSubmit = query => {
@@ -78,8 +76,8 @@ export const App = () => {
 
       <ImageGallery images={images} onClick={getLargeImage}></ImageGallery>
 
-      {largeImageURL && showModal && (
-        <Modal onClose={toggleModal}>{largeImageURL}</Modal>
+      {largeImageUrl && showModal && (
+        <Modal onClose={toggleModal}>{largeImageUrl}</Modal>
       )}
       {isLoading && <Loader />}
       {isVisible && <Button onClick={onLoadMore} onLoad={isLoading} />}
