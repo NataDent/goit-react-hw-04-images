@@ -26,7 +26,7 @@ export const App = () => {
       setIsLoading(true);
 
       try {
-        const { hits, totalHits } = getImages(query, page);
+        const { hits, totalHits } = await getImages(query, page);
 
         if (hits.length === 0) {
           setIsEmpty(true);

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({ src, onClose }) => {
+export const Modal = ({ src, largeImage, onClose }) => {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.code === 'Escape') {
@@ -26,7 +26,7 @@ export const Modal = ({ src, onClose }) => {
   return createPortal(
     <ModalOverlayStyled onClick={handleBackdropClick}>
       <ModalStyled>
-        <LargeImage src={src} alt="qwwqwe" />
+        <LargeImage src={largeImage} alt="qwwqwe" />
       </ModalStyled>
     </ModalOverlayStyled>,
     modalRoot
