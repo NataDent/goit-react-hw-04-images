@@ -10,25 +10,26 @@ import {
   SearchFormInputStyled,
 } from './Searchbar.styled';
 
-export const Searchbar=({query})=> {
-    const [query, setQuery] = useState('');
-  
- const handleInput = e => {
+export const Searchbar = () => {
+  const [query, setQuery] = useState('');
+
+  const handleInput = e => {
     const { value } = e.currentTarget;
     setQuery({ query: value.toLowerCase().trim() });
   };
 
- const  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (query === '') {
       toast.info('Please enter your search term');
       return;
     }
 
-    onSubmit(query);
-  setQuery({ query: '' });
-   
-    
+    const onSubmit = () => {
+      handleSubmit();
+      setQuery('');
+    };
+
     return (
       <>
         <Header>
@@ -48,9 +49,8 @@ export const Searchbar=({query})=> {
         </Header>
       </>
     );
-  }
-}
- };
+  };
+};
 
 Searchbar.propTypes = {
   query: PropTypes.string,
