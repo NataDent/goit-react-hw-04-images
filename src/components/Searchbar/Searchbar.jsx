@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
-import { FiSearch } from 'react-icons/fi';
+// import { FiSearch } from 'react-icons/fi';
 
 import {
   Header,
@@ -41,7 +41,7 @@ export const Searchbar = ({ onSubmit }) => {
             onChange={handleInput}
           />
           <SearchFormButtonStyled type="submit">
-            <FiSearch size="16px" />
+            {/* <FiSearch size="16px" /> */}
             Search
           </SearchFormButtonStyled>
         </SearchFormStyled>

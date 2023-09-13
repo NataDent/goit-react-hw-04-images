@@ -30,9 +30,9 @@ export const App = () => {
 
         if (hits.length === 0) {
           setIsEmpty(true);
-          toast.warn('Sorry. There are no images ... 😅');
           return;
         }
+
         setImages(state => [...state, ...hits]);
         setIsVisible(page < Math.ceil(totalHits / 12));
       } catch (error) {
@@ -41,6 +41,7 @@ export const App = () => {
         setIsLoading(false);
       }
     };
+
     getPhotos(query, page);
   }, [query, page]);
 
